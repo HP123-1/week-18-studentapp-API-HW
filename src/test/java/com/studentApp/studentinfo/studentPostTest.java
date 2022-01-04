@@ -1,0 +1,36 @@
+package com.studentApp.studentinfo;
+
+import com.studentApp.StudentAppPojo;
+import com.studentApp.testbase.TestBase;
+import io.restassured.response.Response;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static io.restassured.RestAssured.given;
+
+public class studentPostTest extends TestBase {
+    @Test
+    public void createStudent() {
+        List<String> courseList = new ArrayList<>();
+        courseList.add("java");
+        courseList.add("selenium");
+
+        StudentAppPojo studentPojo = new StudentAppPojo();
+        studentPojo.setFirstName("Oscar1");
+        studentPojo.setLastName("Testng1");
+        studentPojo.setEmail("abcdef123@yahoo.com");
+        studentPojo.setProgramme("Automation");
+        studentPojo.setCourses(courseList);
+
+        Response response =  given()
+                .header("Content-Type" , "application/json")
+                .body(studentPojo)
+                .when()
+                .post();
+        response.then().statusCode(201);
+        response.prettyPrint();
+
+    }
+}
